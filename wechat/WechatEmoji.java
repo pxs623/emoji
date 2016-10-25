@@ -26,16 +26,16 @@ public class WechatEmoji {
 	    
 	    map.put("闭嘴", "/::X");  
 	    map.put("睡", "/::Z");  
-	    //map.put("大哭", "/::'(");  
+	    map.put("大哭", "/::'(");  
 	    map.put("尴尬", "/::-|");  
 	    map.put("发怒", "/::@");  
 	    map.put("调皮", "/::P");  
-	    map.put("龇牙", "/::D"); 
+	    map.put("呲牙", "/::D"); 
 	    
 	    
 	    map.put("惊讶", "/::O");  
 	    map.put("难过", "/::(");  
-	    //map.put("酷", "/::+");  
+	    map.put("酷", "/::+");  
 	    map.put("冷汗", "/:--b");  
 	    map.put("抓狂", "/::Q");  
 	    map.put("吐", "/::T");
@@ -58,7 +58,7 @@ public class WechatEmoji {
 	    
 	    map.put("晕", "/:,@@");  
 	    map.put("疯了", "/::8");
-	    map.put("哀", "/:,@!");
+	    map.put("衰", "/:,@!");
 	    map.put("骷髅", "/:!!!");
 	    map.put("敲打", "/:xx");  
 	    map.put("再见", "/:bye");
@@ -67,14 +67,14 @@ public class WechatEmoji {
 	    map.put("抠鼻", "/:dig");  
 	    map.put("鼓掌", "/:handclap");
 	    map.put("糗大了", "/:&-(");  
-	    map.put("坏笑", "/:,/:B-)");  
+	    map.put("坏笑", "/:B-)");  
 	    map.put("左哼哼", "/:<@");  
 	    map.put("右哼哼", "/:@>");
 	    
 	    map.put("哈欠", "/::-O");  
 	    map.put("鄙视", "/:>-|");  
 	    map.put("委屈", "/:P-(");  
-	    map.put("快哭", "/::'|");  
+	    map.put("快哭了", "/::'|");  
 	    map.put("阴险", "/:X-)");  
 	    map.put("亲亲", "/::*");  
 	    map.put("吓", "/:@x");
@@ -114,8 +114,8 @@ public class WechatEmoji {
 	    map.put("拳头", "/:@@");
 	    map.put("差劲", "/:bad");
 	    map.put("爱你", "/:lvu");
-	    map.put("no", "/:no");
-	    map.put("ok", "/:ok");
+	    map.put("NO", "/:no");
+	    map.put("OK", "/:ok");
 	    map.put("爱情", "/:love");
 	    map.put("飞吻", "/:<L>");
 	    map.put("跳跳", "/:jump");
@@ -130,7 +130,7 @@ public class WechatEmoji {
 	    //map.put("乱舞", "/:turn");
 	    //map.put("献吻", "/:turn");
 	    //map.put("左太极", "/:turn");
-	    //map.put("投降", "/:turn");
+	    map.put("投降", "/:turn");
 		try {
 			props = PropertiesLoaderUtils.loadAllProperties("wechat_emotion.properties");
 			//System.out.println(props.stringPropertyNames());
@@ -164,7 +164,13 @@ public class WechatEmoji {
 		Matcher m = en.matcher(text);
 	    StringBuffer sb = new StringBuffer();
 	    while (m.find()) {
+	        try {
 	        m.appendReplacement(sb, props.getProperty(m.group()));
+	        }
+	        catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
 	    m.appendTail(sb);
 	    return sb.toString();
@@ -181,10 +187,14 @@ public class WechatEmoji {
 		Matcher m = en.matcher(text);
 	    StringBuffer sb = new StringBuffer();
 	    while (m.find()) {
-	    	String key=m.group();
+	    	String key=m.group().toUpperCase();
 	    	key=key.substring(1,key.length()-1);
 	        try {
-				m.appendReplacement(sb, String.valueOf(map.get(key)));
+	        	String s=String.valueOf(map.get(key));
+	        	if(s=="/::$"){
+	        		s="/::\\$";
+	        	}
+				m.appendReplacement(sb, s);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -212,7 +222,7 @@ public class WechatEmoji {
 	
 	public static void main (String args[])
 	{
-		emoji("/::)[回头]/::X");
+		System.out.println(emoji("/::)[酷]/::X"));
 		//wechatEmojiEn();
 	}
 }
